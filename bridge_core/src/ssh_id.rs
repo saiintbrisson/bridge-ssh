@@ -29,9 +29,9 @@ impl SshId {
     where
         R: AsyncRead + Unpin,
     {
-        let mut buf = [0u8; 255];
+        let mut buf = vec![0u8; 255];
         let end = src.read(&mut buf).await?;
-        let buf = buf[..end].to_vec();
+        buf.truncate(end);
 
         debug!("received ssh id {:?}", String::from_utf8_lossy(&buf));
 
