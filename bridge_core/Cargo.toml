@@ -1,0 +1,17 @@
+[package]
+name = "bridge_core"
+version = "0.1.0"
+authors = ["Luiz Carlos Mourão Paes de Carvalho <luizcarlosmpc@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bytes = "1.0.1"
+log = "0.4.14"
+once_cell = "1.8.0"
+pem = "0.8.3"
+ring = { version = "0.16.20", features = ["std"] }
+thiserror = "1.0.25"
+tokio = { version = "1.7.1", features = ["io-util"] }
+tokio-util = { version = "0.6.7", features = ["codec"] }
