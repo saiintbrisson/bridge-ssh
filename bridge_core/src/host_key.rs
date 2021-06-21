@@ -4,7 +4,7 @@ use once_cell::sync::Lazy;
 use ring::{
     pkcs8::Document,
     rand::SystemRandom,
-    signature::{EcdsaKeyPair, Ed25519KeyPair, Signature, ECDSA_P256_SHA256_ASN1_SIGNING},
+    signature::{EcdsaKeyPair, Ed25519KeyPair, KeyPair, Signature, ECDSA_P256_SHA256_ASN1_SIGNING},
 };
 
 use crate::{algorithm::SshAlgorithm, error::Result};
@@ -22,6 +22,10 @@ pub enum HostKey {
 }
 
 impl HostKey {
+    pub fn algorithms() -> &'static [HostKeyAlgorithm] {
+        &HOST_KEYS
+    }
+
     pub fn algorithm(&self) -> HostKeyAlgorithm {
         match self {
             HostKey::EcdsaP256(_) => HostKeyAlgorithm::EcdsaP256,
@@ -36,8 +40,11 @@ impl HostKey {
         })
     }
 
-    pub fn algorithms() -> &'static [HostKeyAlgorithm] {
-        &HOST_KEYS
+    pub fn public_key(&self) -> &[u8] {
+        match self {
+            HostKey::EcdsaP256(key_pair) => key_pair.public_key().as_ref(),
+            HostKey::Ed25519(key_pair) => key_pair.public_key().as_ref(),
+        }
     }
 }
 
