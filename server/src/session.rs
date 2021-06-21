@@ -11,4 +11,14 @@ pub struct Session {
 }
 
 pub async fn init_connection(stream: TcpStream, addr: SocketAddr) {
+    trace!("received connection from {}", addr);
+
+    let (mut src, mut dst) = tokio::io::split(stream);
+    let ssh_id = match SERVER_ID.handle_id(&mut src, &mut dst).await {
+        Ok(ssh_id) => ssh_id,
+        Err(err) => {
+            warn!("failed to handle ssh id string: {}", err);
+            return;
+        }
+    };
 }
