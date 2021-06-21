@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 use bridge_core::host_key::{HostKey, HostKeyAlgorithm};
+use tokio::net::TcpListener;
 
 use crate::settings::Settings;
 
@@ -27,3 +28,12 @@ impl Server {
     }
 }
 
+pub async fn init_server(server: Server) -> anyhow::Result<()> {
+    let listener = TcpListener::bind(server.settings.server().addr()).await?;
+    info!("listening for connections on {}", listener.local_addr()?);
+
+    loop {
+        let (stream, addr) = listener.accept().await?;
+        tokio::spawn(crate::session::init_connection(stream, addr));
+    }
+}
