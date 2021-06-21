@@ -119,7 +119,7 @@ where
     };
 
     Ok(match algorithm {
-        HostKeyAlgorithm::Ecdsa256 => HostKey::Ecdsa256(EcdsaKeyPair::from_pkcs8(
+        HostKeyAlgorithm::EcdsaP256 => HostKey::EcdsaP256(EcdsaKeyPair::from_pkcs8(
             &ECDSA_P256_SHA256_ASN1_SIGNING,
             &contents[..],
         )?),
