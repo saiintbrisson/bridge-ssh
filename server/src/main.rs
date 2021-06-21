@@ -1,6 +1,7 @@
 #[macro_use]
 extern crate log;
 
+mod server;
 mod settings;
 
 use crate::settings::Settings;
