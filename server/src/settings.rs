@@ -71,6 +71,7 @@ fn default_max_clients() -> u16 {
 }
 
 use bridge_core::{
+    algorithm::SshAlgorithm,
     error::Result as BridgeResult,
     host_key::{HostKey, HostKeyAlgorithm},
 };
